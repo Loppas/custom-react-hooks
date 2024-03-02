@@ -24,7 +24,7 @@ export const useMultiEffect = <const T extends Array<unknown>>(
   const [state, setState] = useState({ deps, isLoading: false });
 
   useEffect(() => {
-    if (deps == state.deps) return;
+    if (deps === state.deps) return;
 
     if (shouldUpdate(state.deps, deps)) {
       setState({ deps, isLoading: false });
