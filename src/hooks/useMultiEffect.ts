@@ -21,12 +21,18 @@ export const useMultiEffect = <const T extends Array<unknown>>(
   deps: T,
   shouldUpdate: ShouldUpdateFunction<T> = shouldUpdateDefault
 ) => {
-  const [depState, setDepState] = useState(deps);
+  const [state, setState] = useState({ deps, isLoading: false });
 
   useEffect(() => {
-    if (shouldUpdate(depState, deps)) {
-      setDepState(deps);
+    if (deps == state.deps) return;
+
+    if (shouldUpdate(state.deps, deps)) {
+      setState({ deps, isLoading: false });
       callback();
+    } else if (!state.isLoading) {
+      setState({ ...state, isLoading: true });
     }
   }, [...deps, shouldUpdate]);
+
+  return { isLoading: state.isLoading };
 };

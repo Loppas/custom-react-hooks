@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -8,7 +8,7 @@ function App() {
   const [count, setCount] = useState(0);
   const [count2, setCount2] = useState(0);
 
-  useMultiEffect(() => {
+  const { isLoading } = useMultiEffect(() => {
     console.log("Count 1: %d, Count 2: %d", count, count2);
   }, [count, count2]);
 
@@ -28,6 +28,7 @@ function App() {
         <button onClick={() => setCount2((c) => c + 1)}>
           count 2 is {count2}
         </button>
+        {isLoading && <p>useMultiEffect is loading</p>}
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
