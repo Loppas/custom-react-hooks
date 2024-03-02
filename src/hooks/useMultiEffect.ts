@@ -17,7 +17,7 @@ export const shouldUpdateDefault: ShouldUpdateFunction<unknown[]> = (
 };
 
 export const useMultiEffect = <const T extends Array<unknown>>(
-  callback: () => void,
+  callback: () => void | (() => void),
   deps: T,
   shouldUpdate: ShouldUpdateFunction<T> = shouldUpdateDefault
 ) => {
@@ -28,7 +28,7 @@ export const useMultiEffect = <const T extends Array<unknown>>(
 
     if (shouldUpdate(state.deps, deps)) {
       setState({ deps, isLoading: false });
-      callback();
+      return callback();
     } else if (!state.isLoading) {
       setState({ ...state, isLoading: true });
     }
