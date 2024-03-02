@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-type ShouldUpdateFunction<T> = (oldState: T[], newState: T[]) => boolean;
+type ShouldUpdateFunction<T> = (oldState: T, newState: T) => boolean;
 
-export const shouldUpdateDefault: ShouldUpdateFunction<unknown> = (
+export const shouldUpdateDefault: ShouldUpdateFunction<unknown[]> = (
   oldState,
   newState
 ) => {
@@ -16,9 +16,9 @@ export const shouldUpdateDefault: ShouldUpdateFunction<unknown> = (
   return depChanges == newState.length;
 };
 
-export const useMultiEffect = <const T>(
+export const useMultiEffect = <const T extends Array<unknown>>(
   callback: () => void,
-  deps: T[],
+  deps: T,
   shouldUpdate: ShouldUpdateFunction<T> = shouldUpdateDefault
 ) => {
   const [depState, setDepState] = useState(deps);
